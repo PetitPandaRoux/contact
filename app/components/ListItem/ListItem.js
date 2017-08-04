@@ -1,11 +1,41 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, TouchableHighlight, Platform, Image} from 'react-native';
+//TouchableHighlight permet de toucher et rendre interactif
+import Icon from 'react-native-vector-icons/Ionicons';
+import styles, {CHEVRON_SIZE} from './styles';
+import {capitalizeFirstLetter} from '../../helpers/string';
+import colors from '../../config/colors';
 
 const ListItem=({contact, onPress})=>{
+    const name= `${capitalizeFirstLetter(contact.name.first)} ${capitalizeFirstLetter(contact.name.last)}`;
+    const iconName=Platform.OS==='ios' ? 'ios-arrow-forward':'md-arrow-forward';
+
+
     return(
-        <View>
-            <Text>{contact.email}</Text>
-        </View>
+        <TouchableHighlight
+            onPress={onPress}
+            underlayColor={colors.rowUnderLay}
+            >
+            <View style={styles.row}>
+                <Image
+                    source={{uri:contact.picture.thumbnail}}
+                    style={styles.avatar}
+                />
+                <View>
+                    <Text style={styles.name}>{name}</Text>
+                    <Text style={styles.email}>{contact.email}</Text>
+                </View>
+                <View style={styles.chevronContainer}>
+                    <Icon
+                        name={iconName}
+                        size={CHEVRON_SIZE}
+                        color={colors.subtleText}
+                        style={styles.chevron}
+                    />
+                </View>
+
+            </View>
+        </TouchableHighlight>
     )
 };
 
