@@ -1,14 +1,28 @@
-import {StackNavigator} from 'react-navigation';
+import React from 'react';
+import {Button, Platform} from 'react-native';
+import {StackNavigator, TabNavigator, DrawerNavigator} from 'react-navigation';
+import Icon from 'react-native-vector-icons/Ionicons';
 import Contacts from '../screens/Contacts';
 import Details from '../screens/Details';
+import NewContact from '../screens/NewContact';
+import Me from '../screens/Me';
 import {capitalizeFirstLetter} from '../helpers/string';
+
+const LeftDrawerButton =({navigation}) =>{
+    if (Platform.OS==='android'){
+        <Button title="Open" onPress={() =>navigation.navigate('DrawerOpen')}/>;
+    }
+
+    return null;
+}
 
 export const ContactsStack=StackNavigator({
     Contact:{
         screen:Contacts,
-        navigationOptions:{
+        navigationOptions:(props)=> ({
             title:'Contacts',
-        },
+            headerLeft:<LeftDrawerButton {...props}/>
+        }),
     },
 
     Details:{
@@ -19,6 +33,82 @@ export const ContactsStack=StackNavigator({
         navigationOptions:({navigation})=>({
             title:`${capitalizeFirstLetter(navigation.state.params.name.first)} ${capitalizeFirstLetter(navigation.state.params.name.last)}`,
         }),
+    },
+
+
+});
+
+export const NewContactStack=StackNavigator({
+    NewContact:{
+        screen:NewContact,
+        navigationOptions:(props)=> ({
+            title:'New Contact',
+            headerLeft:<LeftDrawerButton {...props}/>
+
+        }),
+    },
+});
+
+export const MeStack=StackNavigator({
+    Me:{
+        screen:Me,
+        navigationOptions:(props)=> ({
+            title:'Me',
+            headerLeft:<LeftDrawerButton {...props}/>
+
+        }),
+    },
+});
+
+export const Drawer = DrawerNavigator({
+    Contact:{
+        screen:ContactsStack,
+        navigationOptions:{
+            drawerLabel:'Contacts',
+        }
+    },
+
+    NewContact:{
+        screen:NewContactStack,
+        navigationOptions:{
+            drawerLabel:'New Contact',
+        }
+    },
+
+    Me:{
+        screen:MeStack,
+        navigationOptions:{
+            drawerLabel:'Me',
+        }
+    },
+});
+
+//On est passé au DrawNavigator déroulant par la gauche.
+
+export const Tabs = TabNavigator({
+    Contact:{
+        screen:ContactsStack,
+        navigationOptions:{
+            tabBarLabel:'Contacts',
+            tabBarIcon:({tinColor})=><Icon name="md-list" size={35} color={tinColor} />
+        },
+
+    },
+
+    NewContact:{
+        screen:NewContactStack,
+        navigationOptions:{
+            tabBarLabel:'New Contacts',
+            tabBarIcon:({tinColor})=><Icon name="md-add" size={35} color={tinColor} />
+        },
+    },
+
+    Me:{
+        screen:MeStack,
+        navigationOptions:{
+            tabBarLabel:'Me',
+            tabBarIcon:({tinColor})=><Icon name="md-list" size={35} color={tinColor} />
+        },
     },
 });
 
