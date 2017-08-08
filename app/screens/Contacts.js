@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import {View, Text, FlatList} from 'react-native'; // Pour créer l'écran.
 import {contacts} from '../config/data.js';
-import colors from'../config/colors'; // On importe la liste de contact de notre config.
+import colors from '../config/colors'; // On importe la liste de contact de notre config.
 import{ListItem} from '../components/ListItem';
 
 class Contacts extends Component{

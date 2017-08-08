@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Platform} from 'react-native';
+import {Platform} from 'react-native';
 import {StackNavigator, TabNavigator, DrawerNavigator} from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Contacts from '../screens/Contacts';
@@ -7,10 +7,11 @@ import Details from '../screens/Details';
 import NewContact from '../screens/NewContact';
 import Me from '../screens/Me';
 import {capitalizeFirstLetter} from '../helpers/string';
+import {DrawerButton} from '../components/Header';
 
 const LeftDrawerButton =({navigation}) =>{
     if (Platform.OS==='android'){
-        <Button title="Open" onPress={() =>navigation.navigate('DrawerOpen')}/>;
+        return <DrawerButton onPress={() =>navigation.navigate('DrawerOpen')}/>;
     }
 
     return null;
